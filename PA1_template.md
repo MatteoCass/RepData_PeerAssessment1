@@ -1,8 +1,8 @@
 Report of RepData_PeerAssessment1 
 ========================================================
 This document is the report for Assignment 1 of the Coursera course on Reproducible Research.  
-  # blbla
-Set your working directory to directory containing the file activity.csv with the data. Read the data into R:
+
+Set your working directory to the directory containing the file activity.csv with the data. Read the data into R:
 
 ```r
 data <- read.csv("activity.csv")
@@ -118,7 +118,7 @@ median(tot_steps_fill$tot_steps_fill)
 ```
 ## [1] 10766.19
 ```
-The count of total number of steps per day is higher after imputing missing values, as indicated by the histograms. This is due to the fact that there are no missing values and therefore a higher number of entries that are summed together (288 per day). The average number of steps per day is left unchanged because we replaced missing values by the average. The median has slightly increased and now coincides with the mean. 
+The histograms show that, after imputing missing values, the central peaks of count of number of steps per day have increased. This is due to the fact that for a total of 8 days missing values were replaced with averaged values (central peaks). The average number of steps per day is left unchanged because we replaced missing values by the average. The median has slightly increased and now coincides with the mean because we have several days whose sum of steps is the average. 
   
 We now add a a factor to distinguish weekdays from weekends:
 
@@ -134,7 +134,7 @@ data_fill$weekday<-sub("giovedì", "weekday", data_fill$weekday)
 data_fill$weekday<-sub("venerdì", "weekday", data_fill$weekday)
 data_fill$weekday<-as.factor(data_fill$weekday)
 ```
-We compute the average number of steps per 5-minutes interval, averages across weekdays and weekends separately, and plot them as time series:
+We compute the average number of steps per 5-minutes interval, averaged across weekdays and weekends separately, and plot them as time series:
 
 ```r
 data_split <- split(data_fill,data_fill$weekday)
@@ -143,7 +143,6 @@ mean_wend<-tapply(data_split$weekend$steps,data_split$weekend$interval,FUN="mean
 mean_wend<-as.data.frame(mean_wend)
 mean_wday<-as.data.frame(mean_wday)
 par(mfrow = c(2, 1))
-windows.options(width=10, height=30)
 plot(as.integer(row.names(mean_wday)),mean_wday$mean_wday,main="Weekdays",xlab="interval",ylab="average no. steps",type="l")
 plot(as.integer(row.names(mean_wend)),mean_wend$mean_wend,main="Weekends",xlab="interval",ylab="average no. steps",type="l")
 ```
